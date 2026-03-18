@@ -12,11 +12,22 @@ class Display {
     ///////////////////////////////////////////////////////////////////////////////
     constructor() {
         this.canvas = document.getElementById("canvas");
-        this.context = canvas.getContext("2d");
-        this.width = this.canvas.clientWidth;
-        this.height = this.canvas.clientHeight;
+        this.context = this.canvas.getContext("2d");
 
-        this.context.scale(3.2, 3.2);
+        let drawRatio = window.innerWidth / 3 / this.canvas.width;
+        let drawWidth = window.innerWidth / 3;
+        let drawHeight = this.canvas.height * drawRatio;
+
+        this.canvas.style.width = (drawWidth) + "px";
+        this.canvas.style.height = (drawHeight) + "px";
+
+        this.width = drawWidth;
+        this.height = drawHeight;
+
+        this.context.scale(
+            this.canvas.width / drawWidth,
+            this.canvas.height / drawHeight
+        );
 
         this.minRes = Math.min(this.getWidth(), this.getHeight())
     }
