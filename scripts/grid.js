@@ -36,7 +36,8 @@ class GridGenerator {
             { id: "P3", role: "CDM" }
         ],
         "Z15": [
-            { id: "P4", role: "ST" }
+            { id: "P4", role: "ST" },
+            { id: "P5", role: "LW" }
         ]
     };
 
@@ -85,7 +86,14 @@ class GridGenerator {
                     offsetY - (this.cellHeight / 2)
                 );
 
-                this.getPlayers(zone, centerPosition, players);
+                let cellPlayers = [];
+                this.getPlayers(zone, centerPosition, cellPlayers);
+
+                if (cellPlayers.length > 0) {
+                    cellPlayers.forEach(cellPlayer => {
+                        players.push(cellPlayer)
+                    })
+                }
 
                 this.grid[i][j] = {
                     "offset_x": offsetX,
@@ -93,7 +101,7 @@ class GridGenerator {
                     "cell_width": this.cellWidth,
                     "cell_height": this.cellHeight,
                     "cell_center": centerPosition,
-                    "players": players
+                    "players": cellPlayers
                 };
                 offsetX += this.cellWidth;
             }

@@ -62,6 +62,9 @@ class GameLoop {
             // Subtract extra milliseconds from current time to comply with frame schedule
             this.lastTime = currentTime - (elapsed % this.fpsInterval);
 
+            // Initiate grid changes
+            this.input();
+
             // Update grid on each frame
             this.update(dt);
 
@@ -75,6 +78,12 @@ class GameLoop {
 
     clear() {
         this.renderer.clearCanvas();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Here we are going to initiate changes
+    ///////////////////////////////////////////////////////////////////////////////
+    input() {
     }
 
     ///////////////////////////////////////////////////////////////////////////////
