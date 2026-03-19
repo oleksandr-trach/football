@@ -18,6 +18,20 @@ class Player {
         ["LW", "#751515"],
         ["ST", "#728588"]
     ]);
+    roleNameMap = new Map([
+        ["GK", "GK"],
+        ["RB", "RB"],
+        ["LB", "LB"],
+        ["CB", "CB"],
+        ["CDM", "CDM"],
+        ["CM", "CM"],
+        ["RM", "RM"],
+        ["LM", "LM"],
+        ["CAM", "CAM"],
+        ["RW", "RW"],
+        ["LW", "LW"],
+        ["ST", "ST"]
+    ]);
     zone;
 
     constructor(position, id, role, zone) {
@@ -33,6 +47,18 @@ class Player {
         }
 
         return "#ffffff";
+    }
+
+    /**
+     * @param role
+     * @returns {string}
+     */
+    getRoleName(role) {
+        if (this.roleNameMap.get(role)) {
+            return this.roleNameMap.get(role);
+        }
+
+        return "DF";
     }
 }
 

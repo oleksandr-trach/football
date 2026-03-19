@@ -36,7 +36,28 @@ class PlayerRenderer {
         this.context.lineWidth = 1;
         this.context.strokeStyle = "#ffffff";
         this.context.stroke();
+        this.context.restore();
 
+        this.context.save();
+
+        let roleName = player.getRoleName(player.role);
+        const metrics = this.context.measureText(roleName);
+
+        const width = metrics.width * this.uv.uvLenPx(0.004);
+        const height = (metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent) * this.uv.uvLenPx(0.005)
+
+        let fontSize = this.uv.uvLenPx(0.05);
+        this.context.font = fontSize + "px monospace";
+        this.context.fillStyle = "#ffffff";
+        this.context.shadowColor = "#000000";
+        this.context.shadowBlur = 5;
+        this.context.shadowOffsetX = 0;
+        this.context.shadowOffsetY = 0;
+        this.context.fillText(
+            roleName,
+            position.x - (width  / 2),
+            position.y + (height / 2)
+        );
         this.context.restore();
     }
 }
