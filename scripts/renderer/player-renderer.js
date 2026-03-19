@@ -9,15 +9,18 @@ class PlayerRenderer {
         this.uv = uv;
     }
 
-    drawPlayer(cell) {
+    draw(player) {
         this.context.save();
 
-        let cellCPos = this.uv.getPx(cell.center_x, cell.center_y);
+        let position = this.uv.getPx(
+            player.position.x,
+            player.position.y
+        );
 
         this.context.beginPath();
         this.context.arc(
-            cellCPos.x,
-            cellCPos.y,
+            position.x,
+            position.y,
             this.uv.uvLenPx(0.08),
             0,
             2 * Math.PI

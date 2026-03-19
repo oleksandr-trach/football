@@ -1,5 +1,8 @@
 "use strict";
 
+import Vec2 from "./vec2.js";
+import Player from "./player.js";
+
 class GridGenerator {
     width = 0;
     height = 0;
@@ -24,27 +27,29 @@ class GridGenerator {
 
     data = {
         "Z5": [
-            { id: "P1", role: "goalkeeper" },
-            { id: "P2", role: "forward" }
+            { id: "P1", role: "GK" },
         ],
         "Z2": [
-            { id: "P3", role: "midfielder" }
+            { id: "P2", role: "MF" }
         ],
         "Z10": [
-            { id: "P3", role: "midfielder" }
+            { id: "P3", role: "MF" }
+        ],
+        "Z15": [
+            { id: "P4", role: "MF" }
         ]
     };
 
     grid = {};
 
-    constructor(width, height) {
+    constructor(width, height, players) {
         this.width = width;
         this.height = height;
 
         this.cellWidth = this.width / this.cols;
         this.cellHeight = this.height / this.rows;
 
-        this.initGrid();
+        this.initGrid(players);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -64,7 +69,7 @@ class GridGenerator {
     ///////////////////////////////////////////////////////////////////////////////
     // Initialize grid and prepare the data
     ///////////////////////////////////////////////////////////////////////////////
-    initGrid() {
+    initGrid(players) {
         let offsetY = this.height / 2;
 
         for (let i = 0; i < this.rows; i++) {
@@ -74,15 +79,21 @@ class GridGenerator {
 
             for (let j = 0; j < this.cols; j++) {
                 let zone = this.zoneMap.zones[i][j];
-                let players = this.getPlayers(zone);
+
+                let centerPosition = new Vec2(
+                    offsetX + (this.cellWidth / 2),
+                    offsetY - (this.cellHeight / 2)
+                );
+
+                this.getPlayers(zone, centerPosition, players);
 
                 this.grid[i][j] = {
                     "offset_x": offsetX,
                     "offset_y": offsetY,
                     "cell_width": this.cellWidth,
                     "cell_height": this.cellHeight,
-                    "center_x": offsetX + (this.cellWidth / 2),
-                    "center_y": offsetY - (this.cellHeight / 2)
+                    "cell_center": centerPosition,
+                    "players": players
                 };
                 offsetX += this.cellWidth;
             }
@@ -91,16 +102,21 @@ class GridGenerator {
         }
     }
 
-    getPlayers(zone) {
-        let players = [];
-
+    getPlayers(zone, centerPosition, players) {
         if (this.data[zone]) {
-            this.data[zone].forEach(player => {
+            this.data[zone].forEach(playerData => {
+                // Create new player
+                let player = new Player(
+                    centerPosition,
+                    playerData.id,
+                    playerData.role,
+                    zone
+                );
+
+                // Add player to cell players list
                 players.push(player);
             });
         }
-
-        return players;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

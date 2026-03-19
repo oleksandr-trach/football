@@ -46,6 +46,8 @@ class Renderer {
 
     ///////////////////////////////////////////////////////////////////////////////
     // Draw grid using conversion from UV to display coordinates
+    // Grid drawer should only be responsible for drawing a grid, nothing more
+    // This is a logic
     ///////////////////////////////////////////////////////////////////////////////
     drawGrid(width, height, grid) {
         this.gridRenderer.initGrid();
@@ -57,9 +59,14 @@ class Renderer {
 
                 this.context.restore();
                 this.gridRenderer.drawCell(cell);
-                this.playerRenderer.drawPlayer(cell);
             }
         }
+    }
+
+    drawPlayers(players) {
+        players.forEach(player => {
+            this.playerRenderer.draw(player);
+        });
     }
 }
 

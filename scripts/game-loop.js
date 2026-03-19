@@ -13,6 +13,7 @@ class GameLoop {
     uv;
     gridGenerator;
     grid;
+    players = [];
     renderer;
     background
 
@@ -36,6 +37,7 @@ class GameLoop {
         this.gridGenerator = new GridGenerator(
             Math.abs(displayResUV.u) * 2,
             Math.abs(displayResUV.v) * 2,
+            this.players
         );
 
         this.grid = this.gridGenerator.getGrid();
@@ -91,6 +93,7 @@ class GameLoop {
             this.gridGenerator.getGridHeight(),
             this.grid
         );
+        this.renderer.drawPlayers(this.players);
     }
 }
 
