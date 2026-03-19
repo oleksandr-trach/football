@@ -30,13 +30,13 @@ class GridGenerator {
             { id: "P1", role: "GK" },
         ],
         "Z2": [
-            { id: "P2", role: "MF" }
+            { id: "P2", role: "RM" }
         ],
         "Z10": [
-            { id: "P3", role: "MF" }
+            { id: "P3", role: "CDM" }
         ],
         "Z15": [
-            { id: "P4", role: "MF" }
+            { id: "P4", role: "ST" }
         ]
     };
 

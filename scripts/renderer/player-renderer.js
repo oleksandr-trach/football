@@ -25,11 +25,7 @@ class PlayerRenderer {
             0,
             2 * Math.PI
         );
-        this.context.fillStyle = `rgb(
-            ${ Math.floor(255) },
-            ${ Math.floor(255) },
-            ${ Math.floor(255) }
-        )`;
+        this.context.fillStyle = player.getColorByRole(player.role);
         this.context.fill();
 
         this.context.shadowColor = "#000000";
