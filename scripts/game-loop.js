@@ -21,6 +21,7 @@ class GameLoop {
     ];
     move = [];
     animationTime = 0.0;
+    epsilon = 0.98;
     moveTime = 0.0;
     renderer;
     background
@@ -116,7 +117,7 @@ class GameLoop {
         this.animationTime += dt;
 
         let t = this.animationTime / 3;
-        if (t > 1.0) t = 1.0;
+        if (t > this.epsilon) t = 1.0;
 
         if (this.animationTime >= 3.0) this.animationTime -= 3.0;
 
@@ -135,6 +136,10 @@ class GameLoop {
 
                         this.players[j].position.x = newPosX;
                         this.players[j].position.y = newPosY;
+
+                        if (t === 1) {
+                            this.players[j].startPosition = this.players[j].position;
+                        }
                     }
                 }
             }
