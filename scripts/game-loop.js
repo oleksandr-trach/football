@@ -15,8 +15,12 @@ class GameLoop {
     grid;
     players = [];
     moves = [
-        [["P2", "Z3"], ["P4", "Z13"]],
-        [["P1", "Z18"], ["P3", "Z8"]],
+        // [["P2", "Z3"], ["P4", "Z13"]],
+        // [["P1", "Z18"], ["P3", "Z8"]],
+        // [["P1", "Z17"]]
+
+            [["P2", "Z3"]],
+        [["P1", "Z18"]],
         [["P1", "Z17"]]
     ];
     move = [];
@@ -94,7 +98,7 @@ class GameLoop {
     ///////////////////////////////////////////////////////////////////////////////
     input(dt) {
         this.moveTime += dt;
-        if (this.moveTime >= 3.0) {
+        if (this.moveTime >= 5.0) {
             this.animationTime = 0;
             this.move = [];
             if (this.moves.length > 0) {
@@ -103,7 +107,7 @@ class GameLoop {
                     this.move.push(moves[i]);
                 }
             }
-            this.moveTime -= 3.0;
+            this.moveTime -= 5.0;
         }
     }
 
@@ -116,7 +120,7 @@ class GameLoop {
 
         this.animationTime += dt;
 
-        let t = this.animationTime / 3;
+        let t = this.animationTime / 3.0;
         if (t > this.epsilon) t = 1.0;
 
         if (this.animationTime >= 3.0) this.animationTime -= 3.0;
@@ -130,7 +134,7 @@ class GameLoop {
                     this.players[j].zone = whereTo;
                     let targetCenter = this.gridGenerator.zoneCenterMap.get(whereTo);
 
-                    if (this.players[j].position.x !== targetCenter.position.x || this.players[j].position.y !== targetCenter.position.y) {
+                    if (this.players[j].position !== targetCenter.position) {
                         let newPosX = this.interpolation(this.players[j].startPosition.x, targetCenter.position.x, t);
                         let newPosY = this.interpolation(this.players[j].startPosition.y, targetCenter.position.y, t);
 
@@ -138,7 +142,8 @@ class GameLoop {
                         this.players[j].position.y = newPosY;
 
                         if (t === 1) {
-                            this.players[j].startPosition = this.players[j].position;
+                            console.log(this.players[j].position.x);
+                            this.players[j].startPosition = targetCenter.position;
                         }
                     }
                 }
@@ -148,7 +153,7 @@ class GameLoop {
 
     interpolation(v0, v1, t) {
         let smoothT = t * t * (3.0 - 2.0 * t);
-        return v0 + smoothT * (v1 - v0);
+        return v0 + t * (v1 - v0);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
