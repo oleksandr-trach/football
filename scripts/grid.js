@@ -25,12 +25,14 @@ class GridGenerator {
         ]
     };
 
+    zoneCenterMap = new Map();
+
     data = {
         "Z5": [
             { id: "P1", role: "GK" },
         ],
         "Z2": [
-            { id: "P2", role: "RM" }
+            { id: "P2", role: "RM" },
         ],
         "Z10": [
             { id: "P3", role: "CDM" }
@@ -95,6 +97,13 @@ class GridGenerator {
                     })
                 }
 
+                const cellCenterData = {
+                    "position": centerPosition,
+                    "row": i,
+                    "col": j
+                };
+                this.zoneCenterMap.set(zone, cellCenterData);
+
                 this.grid[i][j] = {
                     "offset_x": offsetX,
                     "offset_y": offsetY,
@@ -116,6 +125,7 @@ class GridGenerator {
                 // Create new player
                 let player = new Player(
                     centerPosition,
+                    new Vec2(centerPosition.x, centerPosition.y),
                     playerData.id,
                     playerData.role,
                     zone

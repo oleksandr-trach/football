@@ -14,6 +14,8 @@ class GameLoop {
     gridGenerator;
     grid;
     players = [];
+    moves = [];
+    animationTime = 0.0;
     renderer;
     background
 
@@ -84,12 +86,47 @@ class GameLoop {
     // Here we are going to initiate changes
     ///////////////////////////////////////////////////////////////////////////////
     input() {
+        this.moves = [
+            ["P2", "Z3"],
+            ["P1", "Z18"]
+        ];
     }
 
     ///////////////////////////////////////////////////////////////////////////////
     // Update all grid elements before drawing
     ///////////////////////////////////////////////////////////////////////////////
     update(dt) {
+        this.animationTime += dt;
+
+        let t = this.animationTime / 3;
+        if (t > 1.0) t = 1.0;
+
+        if (this.animationTime >= 3.0) this.animationTime -= 3.0;
+
+        for (let i = 0; i < this.moves.length; i++) {
+            let whichPlayer = this.moves[i][0];
+            let whereTo = this.moves[i][1];
+
+            for (let j = 0; j < this.players.length; j++) {
+                if (this.players[j].id === whichPlayer) {
+                    this.players[j].zone = whereTo;
+                    let targetCenter = this.gridGenerator.zoneCenterMap.get(whereTo);
+
+                    if (this.players[j].position.x !== targetCenter.position.x || this.players[j].position.y !== targetCenter.position.y) {
+                        let newPosX = this.interpolation(this.players[j].startPosition.x, targetCenter.position.x, t);
+                        let newPosY = this.interpolation(this.players[j].startPosition.y, targetCenter.position.y, t);
+
+                        this.players[j].position.x = newPosX;
+                        this.players[j].position.y = newPosY;
+                    }
+                }
+            }
+        }
+    }
+
+    interpolation(v0, v1, t) {
+        let smoothT = t * t * (3.0 - 2.0 * t);
+        return v0 + smoothT * (v1 - v0);
     }
 
     ///////////////////////////////////////////////////////////////////////////////

@@ -2,12 +2,14 @@
 
 class Player {
     position;
+    startPosition;
     id;
     role;
     zone;
 
-    constructor(position, id, role, zone) {
+    constructor(position, startPosition, id, role, zone) {
         this.position = position;
+        this.startPosition = startPosition;
         this.id = id;
         this.role = role;
         this.zone = zone;
