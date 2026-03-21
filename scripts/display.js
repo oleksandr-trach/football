@@ -14,7 +14,7 @@ class Display {
         this.canvas = document.getElementById("canvas");
         this.context = this.canvas.getContext("2d");
 
-        let resultWidth = window.innerWidth * 0.33;
+        let resultWidth = window.outerWidth * 0.33;
 
         let drawRatio = (resultWidth) / this.canvas.width;
         let drawWidth = (resultWidth);

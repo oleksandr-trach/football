@@ -14,8 +14,13 @@ class GameLoop {
     gridGenerator;
     grid;
     players = [];
-    moves = [];
+    moves = [
+        ["P2", "Z3"],
+        ["P1", "Z18"]
+    ];
+    move = [];
     animationTime = 0.0;
+    moveTime = 0.0;
     renderer;
     background
 
@@ -65,7 +70,7 @@ class GameLoop {
             this.lastTime = currentTime - (elapsed % this.fpsInterval);
 
             // Initiate grid changes
-            this.input();
+            this.input(dt);
 
             // Update grid on each frame
             this.update(dt);
@@ -85,17 +90,25 @@ class GameLoop {
     ///////////////////////////////////////////////////////////////////////////////
     // Here we are going to initiate changes
     ///////////////////////////////////////////////////////////////////////////////
-    input() {
-        this.moves = [
-            ["P2", "Z3"],
-            ["P1", "Z18"]
-        ];
+    input(dt) {
+        this.moveTime += dt;
+        if (this.moveTime >= 3.0) {
+            this.animationTime = 0;
+            this.move = [];
+            if (this.moves.length > 0) {
+                this.move.push(this.moves.shift());
+            }
+            this.moveTime -= 3.0;
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
     // Update all grid elements before drawing
     ///////////////////////////////////////////////////////////////////////////////
     update(dt) {
+        // If no moves just do nothing
+        if (this.move.length === 0) return;
+
         this.animationTime += dt;
 
         let t = this.animationTime / 3;
@@ -103,9 +116,9 @@ class GameLoop {
 
         if (this.animationTime >= 3.0) this.animationTime -= 3.0;
 
-        for (let i = 0; i < this.moves.length; i++) {
-            let whichPlayer = this.moves[i][0];
-            let whereTo = this.moves[i][1];
+        for (let i = 0; i < this.move.length; i++) {
+            let whichPlayer = this.move[i][0];
+            let whereTo = this.move[i][1];
 
             for (let j = 0; j < this.players.length; j++) {
                 if (this.players[j].id === whichPlayer) {
