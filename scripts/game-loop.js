@@ -15,8 +15,9 @@ class GameLoop {
     grid;
     players = [];
     moves = [
-        ["P2", "Z3"],
-        ["P1", "Z18"]
+        [["P2", "Z3"], ["P4", "Z13"]],
+        [["P1", "Z18"], ["P3", "Z8"]],
+        [["P1", "Z17"]]
     ];
     move = [];
     animationTime = 0.0;
@@ -96,7 +97,10 @@ class GameLoop {
             this.animationTime = 0;
             this.move = [];
             if (this.moves.length > 0) {
-                this.move.push(this.moves.shift());
+                let moves = this.moves.shift();
+                for (let i = 0; i < moves.length; i++) {
+                    this.move.push(moves[i]);
+                }
             }
             this.moveTime -= 3.0;
         }
