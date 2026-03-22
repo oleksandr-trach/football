@@ -19,9 +19,7 @@ class GameLoop {
         // [["P1", "Z18"], ["P3", "Z8"]],
         // [["P1", "Z17"]]
 
-            [["P2", "Z3"]],
-        [["P1", "Z18"]],
-        [["P1", "Z17"]]
+        [["P4", "Z18"]]
     ];
     move = [];
     animationTime = 0.0;
@@ -98,16 +96,17 @@ class GameLoop {
     ///////////////////////////////////////////////////////////////////////////////
     input(dt) {
         this.moveTime += dt;
-        if (this.moveTime >= 5.0) {
-            this.animationTime = 0;
+        if (this.moveTime >= 3.0) {
             this.move = [];
             if (this.moves.length > 0) {
-                let moves = this.moves.shift();
-                for (let i = 0; i < moves.length; i++) {
-                    this.move.push(moves[i]);
-                }
+                // Reset animation time
+                this.animationTime = 0;
+                    let moves = this.moves.shift();
+                    for (let i = 0; i < moves.length; i++) {
+                        this.move.push(moves[i]);
+                    }
             }
-            this.moveTime -= 5.0;
+            this.moveTime -= 3.0;
         }
     }
 
@@ -117,13 +116,19 @@ class GameLoop {
     update(dt) {
         // If no moves just do nothing
         if (this.move.length === 0) return;
+        if (this.animationTime === 2.0) return;
 
         this.animationTime += dt;
 
-        let t = this.animationTime / 3.0;
-        if (t > this.epsilon) t = 1.0;
+        let t = this.animationTime / 2.0;
+        if (t > 1.0) t = 1.0;
 
-        if (this.animationTime >= 3.0) this.animationTime -= 3.0;
+        if (this.animationTime >= 2.0) {
+            this.animationTime = 2.0;
+        }
+
+
+        return;
 
         for (let i = 0; i < this.move.length; i++) {
             let whichPlayer = this.move[i][0];
@@ -142,7 +147,6 @@ class GameLoop {
                         this.players[j].position.y = newPosY;
 
                         if (t === 1) {
-                            console.log(this.players[j].position.x);
                             this.players[j].startPosition = targetCenter.position;
                         }
                     }

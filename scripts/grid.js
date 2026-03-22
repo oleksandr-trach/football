@@ -124,7 +124,7 @@ class GridGenerator {
             this.data[zone].forEach(playerData => {
                 // Create new player
                 let player = new Player(
-                    centerPosition,
+                    new Vec2(centerPosition.x, centerPosition.y),
                     new Vec2(centerPosition.x, centerPosition.y),
                     playerData.id,
                     playerData.role,
