@@ -15,15 +15,13 @@ class GameLoop {
     grid;
     players = [];
     moves = [
-        // [["P2", "Z3"], ["P4", "Z13"]],
-        // [["P1", "Z18"], ["P3", "Z8"]],
-        // [["P1", "Z17"]]
-
-        [["P4", "Z18"]]
+        [["P2", "Z3"], ["P4", "Z13"]],
+        [["P1", "Z18"], ["P3", "Z8"]],
+        [["P1", "Z17"]],
+        [["P1", "Z14"]]
     ];
     move = [];
     animationTime = 0.0;
-    epsilon = 0.98;
     moveTime = 0.0;
     renderer;
     background
@@ -127,9 +125,6 @@ class GameLoop {
             this.animationTime = 2.0;
         }
 
-
-        return;
-
         for (let i = 0; i < this.move.length; i++) {
             let whichPlayer = this.move[i][0];
             let whereTo = this.move[i][1];
@@ -157,7 +152,7 @@ class GameLoop {
 
     interpolation(v0, v1, t) {
         let smoothT = t * t * (3.0 - 2.0 * t);
-        return v0 + t * (v1 - v0);
+        return v0 + smoothT * (v1 - v0);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
